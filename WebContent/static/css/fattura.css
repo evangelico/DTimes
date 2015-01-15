@@ -97,7 +97,7 @@ table.meta td {
 	max-height: 25%;
 	max-width: 60%;
 	position: relative;
-	margin: 0 0 1em 1em;
+	margin: 0 0 0 1em;
 }
 
 .header span img {
@@ -115,7 +115,7 @@ table.meta td {
 }
 
 .article, .article .address, table.meta, table.inventory {
-	margin: 0 0 3em;
+	margin: 2em 0 1em;
 }
 
 table.meta, table.balance {
@@ -137,17 +137,12 @@ table.inventory th {
 	text-align: center;
 }
 
-table.inventory td:nth-child(1) {
+table.inventory td:nth-child(2) {
 	width: 20%;
 	text-align: left;
 }
 
 table.inventory td:nth-child(3) {
-	width: 10%;
-	text-align: center;
-}
-
-table.inventory td:nth-child(4) {
 	text-align: right;
 	width: 20%;
 }
@@ -171,4 +166,31 @@ table.balance td {
 	border-color: #999;
 	border-width: 0 0 1px;
 	margin: 0 0 1em;
+}
+
+.marca_bollo {
+	float: left;
+	width: 49%;
+	text-align: center;
+	padding: 5%;
+	border: 1px solid #000000;
+}
+
+.firma {
+	float: right;
+	width: 80%;
+}
+
+.firma h2 {
+	border: none;
+	border-bottom-style: solid;
+	border-color: #999;
+	border-width: 0 0 1px;
+	margin: 0 0 1em;
+	text-align: left;
+}
+
+.firma p {
+	font-size: .7em;
+	text-align: right;
 }

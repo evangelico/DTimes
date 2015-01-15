@@ -169,10 +169,12 @@
 			<result>/WEB-INF/web/search/{1}.jsp</result>
 			<result name="deadline.disable.ok" type="redirectAction">
 				<param name="actionName">search/paymentExpired</param>
+				<param name="nameFilter">%{nameFilter}</param>
 			</result>
 			
 			<result name="deadline.enable.ok" type="redirectAction">
 				<param name="actionName">search/paymentExpired</param>
+				<param name="nameFilter">%{nameFilter}</param>
 			</result>
 			
 			

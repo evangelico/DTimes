@@ -21,7 +21,7 @@
 	<table class="meta">
 		<tbody>
 			<tr>
-				<th><span>Fattura n°</span></th>
+				<th><span>Ricevuta n°</span></th>
 				<td>
 					<span>
 						<s:property value="invoice.id" />
@@ -32,14 +32,14 @@
 				<th><span>Data emissione</span></th>
 				<td>
 					<span>
-						<s:date name="invoice.lastPrintDate" format="dd/MM/yyyy" />
+						<s:date name="invoice.creationDate" format="dd/MM/yyyy" />
 					</span>
 				</td>
 			</tr>
 			<tr>
-				<th><span>Iscrizione n°</span></th>
+				<th><span>Codice fiscale</span></th>
 				<td>
-					<s:property value="invoice.subscription.id" />
+					<s:property value="invoice.subscription.fiscalCode" />
 				</td>
 			</tr>
 		</tbody>
@@ -63,9 +63,9 @@
 				</td>
 			</tr>
 			<tr>
-				<th><span>Codice fiscale</span></th>
+				<th><span>Indirizzo</span></th>
 				<td>
-					<s:property value="invoice.subscription.fiscalCode" />
+					<s:property value="invoice.subscription.address" />
 				</td>
 			</tr>
 		</tbody>
@@ -74,9 +74,8 @@
 	<table class="inventory">
 		<thead>
 			<tr>
-				<th><span>Pacchetto</span></th>
-				<th><span>Descrizione</span></th>
-				<th><span>Costo</span></th>
+				<th><span>Per attivit&agrave; sportiva:</span></th>
+				<th><span>Somma*</span></th>
 				<th><span>Periodo</span></th>
 			</tr>
 		</thead>
@@ -86,11 +85,6 @@
 					<td>
 						<span>
 							<s:property value="packageCourses.name" />
-						</span>
-					</td>
-					<td>
-						<span>
-							<s:property value="packageCourses.description" />
 						</span>
 					</td>
 					<td>
@@ -131,6 +125,9 @@
 			</s:iterator>
 		</tbody>
 	</table>
+	<div class="marca_bollo">
+		Soggetta ad imposta vigente
+	</div>
 	<table class="balance">
 		<tbody>
 			<tr>
@@ -160,6 +157,16 @@
 		</tbody>
 	</table>
 </div>
+<div class="firma">
+	<h2>
+		<span>Firma incaricato</span>
+	</h2>
+	<div>
+		<p>*Somma non soggetta ad IVA ai sensi del quarto comma dell'art 4 D.P.R. 633/72 e succ. modifiche e integrazioni</p>
+	</div>
+</div>
+
+<!-- 
 <div class="note">
 	<h1>
 		<span>Note</span>
@@ -168,5 +175,6 @@
 		<p>1). Tutti gli iscritti devono saldare la quota associativa entro la prima settimana del mese</p>
 	</div>
 </div>
+ -->
 </body>
 </html>
