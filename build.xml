@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="DTimes" default="build.all" basedir=".">
+
+	<property name="classes" location="${basedir}/build/classes" />
+	<property name="libs" location="${basedir}/WebContent/WEB-INF/lib" />
+	<property name="dist" location="${basedir}/dist" />
+	<property name="sql" location="${dist}/sql" />
+
+	<target name="build.all" description="">
+		<antcall target="build.sql" />
+		<antcall target="build.jar" />
+	</target>
+
+
+	<path id="jpatoolslib">
+		<path location="${libs}/hibernate-tools.jar" />
+		<path location="${libs}/hibernate3.jar" />
+		<path location="${libs}/commons-logging-1.1.jar" />
+		<path location="${libs}/hibernate-jpa-2.0-api-1.0.0.Final.jar" />
+		<path location="${libs}/javassist-3.9.0.GA.jar" />
+		<path location="${libs}/slf4j-api-1.5.3.jar" />
+		<path location="${libs}/slf4j-log4j12-1.5.3.jar" />
+		<path location="${libs}/log4j-1.2.16.jar" />
+		<path location="${libs}/freemarker.jar" />
+		<path location="${libs}/commons-collections-3.2.1.jar" />
+		<path location="${libs}/dom4j-1.6.1.jar" />
+	</path>
+
+
+	<taskdef name="hibernatetool" classname="org.hibernate.tool.ant.HibernateToolTask" classpathref="jpatoolslib" />
+
+	<target name="build.jar">
+		<jar jarfile="${dist}/dtimes.jar">
+			<fileset dir="${classes}">
+				<include name="it/fge/dtimes/**" />
+			</fileset>
+		</jar>
+	</target>
+
+
+	<target name="build.sql">
+		<hibernatetool destdir="${sql}">
+			<classpath>
+				<path location="${classes}" />
+			</classpath>
+			<jpaconfiguration persistenceunit="default" />
+			<hbm2ddl export="false" drop="true" create="true" outputfilename="tables.generated.sql" format="true" />
+		</hibernatetool>
+	</target>
+
+
+</project>

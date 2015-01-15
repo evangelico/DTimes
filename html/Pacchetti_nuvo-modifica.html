@@ -1,0 +1,185 @@
+﻿<!doctype	html>
+<html	lang="it">
+	<head>
+		<meta	charset="UTF-8">
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/style_menu_dropdown.css" />
+		<script type="text/javascript" src="js/jquery_1.8.2.min.js"> /* */</script>
+		<title>D.Time's	-	Dance	&	Fitness	Accademy - Gestione</title>
+	</head>
+	<body>
+		<div class="main_container">
+			<div class="header">
+				<div class="logo_small">
+					<img alt="" src="./img/logo_small.jpg" />
+				</div>
+				<div class="menu">
+						<div class="wrapper-dropdown" style="width:100px;">
+							<a href="#"><span>Dashboard</span></a>
+						</div>
+						<div class="wrapper-dropdown multi selected" style="width:180px;">
+							<span>Gestione iscrizioni</span>
+					    <ul class="dropdown">
+					        <li><a href="#">Lista iscrizioni</a></li>
+					        <li><a href="#" >Nuova iscrizione</a></li>
+					    </ul>
+						</div>
+						<div class="wrapper-dropdown" style="width:94px;">
+							<a href="#"><span>Pagamenti</span></a>
+						</div>
+						<div class="wrapper-dropdown multi" style="width:210px;">
+							<span>Gestione pacchetti corsi</span>
+					    <ul class="dropdown">
+					        <li><a href="#">Lista pacchetti corsi</a></li>
+					        <li><a href="#">Nuovo pacchetto corso</a></li>
+					    </ul>
+						</div>
+						<div class="wrapper-dropdown multi" style="width:180px;">
+							<span>Cerca</span>
+					    <ul class="dropdown">
+					        <li><a href="#">Iscritti non paganti</a></li>
+					        <li><a href="#">Pagamenti effettuati</a></li>
+					    </ul>
+						</div>
+						<div class="wrapper-dropdown" style="width:100px;">
+							<a href="#"><span>Esci</span></a>
+						</div>
+				</div>
+				<div class="user">
+					<p>
+						<a href="#">
+							Valentina Lorenzetti
+						</a>
+					</p>
+					<a href="#">
+						<img src="./img/user.png" alt="" />
+					</a>
+				</div>
+			</div>
+			<div class="central_container">
+				<div class="section_preview">
+					<div class="title">
+						Pacchetti
+					</div>
+					<div class="status">
+						<div class="box orange">
+							<i class="icon-calendar"></i>
+							<div class="details">
+								<span class="big">September 22, 2014</span>
+								<span>Monday, 15:57</span>
+							</div>
+						</div>
+						<a href="#">
+							<div class="box red">
+								<i class="icon-money"></i>
+								<div class="details">
+									<span class="big">9</span>
+									<span >Iscritti non paganti</span>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="main_section">
+					<div class="box-bordered box-color">
+							<div class="box-title">
+								<h3><i class="icon-th-list"></i> Nuovo pacchetto </h3>
+							</div>
+							<div class="box-content nopadding">
+								<form action="#" method="POST">
+									<div class="control-group">
+										<label for="textfield" class="control-label">Plan ID :</label>
+										<div class="controls">					<input type="text" name="p_id" value="MWOSTGHI" class="uneditable-input" readonly="">
+										</div>
+									</div>
+									<div class="control-group">
+										<label for="textfield" class="control-label">Name :</label>
+										<div class="controls"><span id="sprytextfield1">
+										  <input type="text" name="name" id="textfield3" class="input-xlarge" placeholder="Plan Name" maxlength="100">
+									    <span class="textfieldRequiredMsg">A value is required.</span></span></div>
+									</div>
+									<div class="control-group">
+										<label for="emailfield" class="control-label">Details :</label>
+										<div class="controls">
+											
+										  <input type="text" name="details" id="emailfield" class="input-xlarge" placeholder="Details" maxlength="999">
+										</div>
+									</div>
+									<div class="control-group">
+										<label for="textfield" class="control-label">Days :</label>
+										<div class="controls"><span id="sprytextfield2">
+										  <input type="text" name="days" id="textfield4" class="input-xlarge" placeholder="Validity In Days" onkeypress="return checkIt(event)" maxlength="3" >
+									    <span class="textfieldRequiredMsg">A value is required.</span></span></div>
+									</div>
+									<div class="control-group">
+										<label for="textfield" class="control-label">Rate :</label>
+										<div class="controls"><span id="sprytextfield4">
+										  <input type="text" name="rate" id="textfield6" class="input-xlarge" placeholder="Mobile / Phone" value="500" onkeypress="return checkIt(event)" maxlength="10" autocomplete="off">
+									    <span class="textfieldRequiredMsg">A value is required.</span></span></div>
+									</div>
+									<div class="form-actions">
+										<button type="submit" class="btn btn-primary">Save changes</button>
+										
+									</div>
+								</form>
+							</div>
+					</div>
+				</div>
+			</div>
+			<div class="footer_container footer_white">
+				<div class="footer">
+					<p>
+						Developed by Evangelisti Fernando Giuseppe
+					</p>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			
+			function DropDown(el) {
+				this.dd = el;
+				this.placeholder = this.dd.children('span');
+				this.opts = this.dd.find('ul.dropdown > li');
+				this.val = '';
+				this.index = -1;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+
+					obj.dd.on('click', function(event){
+						$('.wrapper-dropdown.multi').removeClass('active');
+						$(this).toggleClass('active');
+						return false;
+					});
+
+					obj.opts.on('click',function(){
+						var opt = $(this);
+						obj.val = opt.text();
+						obj.index = opt.index();
+						obj.placeholder.text('Gender: ' + obj.val);
+					});
+				},
+				getValue : function() {
+					return this.val;
+				},
+				getIndex : function() {
+					return this.index;
+				}
+			}
+
+			$(function() {
+				var dd = new DropDown( $('.wrapper-dropdown.multi') );
+
+				$(document).click(function() {
+					// all dropdowns
+					$('.wrapper-dropdown.multi').removeClass('active');
+				});
+
+			});
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+			http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		">
+
+	
+
+	<bean id="loginManager" class="it.fge.dtimes.business.login.LoginManagerImpl" />
+	
+	<bean id="plainBusiness" class="it.fge.dtimes.business.plain.PlainBusinessImpl" />
+	
+	<bean id="subscriptionBusiness" class="it.fge.dtimes.business.subscription.SubscriptionBusinessImpl" />
+	
+	<bean id="paymentBusiness" class="it.fge.dtimes.business.payment.PaymentBusinessImpl" />
+	
+	<bean id="invoiveBusiness" class="it.fge.dtimes.business.invoice.InvoiceBusinessImpl" />
+	
+	<bean id="deadlineBusiness" class="it.fge.dtimes.business.deadline.DeadlineBusinessImpl" />
+	
+	<bean id="profileBusiness" class="it.fge.dtimes.business.profile.ProfileBusinessImpl" />
+	
+</beans>
+

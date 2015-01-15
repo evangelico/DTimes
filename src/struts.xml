@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<constant name="struts.enable.SlashesInActionNames" value="true" />
+	<constant name="struts.action.extension" value="html" />
+	<constant name="struts.ui.theme" value="simple" />
+	<constant name="struts.url.includeParams" value="none" />
+
+	<constant name="struts.locale" value="it_IT" />
+	<constant name="struts.custom.i18n.resources" value="i18n/messages" />
+
+	<package name="app-default" extends="struts-default">
+		<interceptors>
+			<interceptor name="authInterceptor" class="authInterceptor" />
+
+			<interceptor-stack name="defaultInterceptors">
+				<interceptor-ref name="token">
+					<param name="excludeMethods">
+						index,
+						insert,edit,remove,disable,enable,detail,deadlinesHide,enableDeadline,
+						getPlainFromId,getExpiration,getAmount,getCountSubscriptionByPlain,getTotalAmountByPlain,getTotalToTeacherByPlain,
+						stamp,paymentExpired,payments,subscriptions,plains,certificatesExpired,getPlainFromDeadline,disableDeadline,
+						logout
+					</param>
+				</interceptor-ref>
+				<interceptor-ref name="i18n" />
+				<interceptor-ref name="authInterceptor" />
+				<interceptor-ref name="prepare" />
+				<interceptor-ref name="staticParams" />
+				<interceptor-ref name="params">
+					<param name="excludeParams">
+						dojo\..*,
+						^struts\..*
+					</param>
+				</interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+
+		<default-interceptor-ref name="defaultInterceptors" />
+
+		<global-results>
+			<result name="error">/WEB-INF/web/error.jsp</result>
+			<result name="not.authorized">/WEB-INF/web/login.jsp</result>
+		</global-results>
+
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception" />
+		</global-exception-mappings>
+
+		<!-- Gestione cruscotto -->
+		<action name="main/*" method="{1}" class="mainAction">
+			<result>/WEB-INF/web/{1}.jsp</result>
+			<result name="logout" type="redirectAction">
+				<param name="actionName">main/index</param>
+			</result>
+		</action>
+
+		<!-- Gestione pacchetti corsi -->
+		<action name="plain/*" method="{1}" class="plainAction">
+			<result>/WEB-INF/web/plain/{1}.jsp</result>
+			<result name="invalid.token" type="redirectAction">
+				<param name="actionName">plain/index</param>
+			</result>
+			<result name="plain.to.modify">
+				/WEB-INF/web/plain/insert.jsp
+			</result>
+			<result name="plain.insert.error">
+				/WEB-INF/web/plain/insert.jsp
+			</result>
+			<result name="plain.delete.error">
+				/WEB-INF/web/plain/index.jsp
+			</result>
+			<result name="plain.insert.success" type="redirectAction">
+				<param name="actionName">plain/index</param>
+			</result>
+
+			<result name="ajaxPlain" type="stream">
+				<param name="contentType">application/json</param>
+				<param name="inputName">plainFind</param>
+			</result>
+			
+		</action>
+
+		<!-- Gestione iscrizioni -->
+		<action name="subscription/*" method="{1}" class="subscriptionAction">
+			<result>/WEB-INF/web/subscription/{1}.jsp</result>
+			<result name="invalid.token" type="redirectAction">
+				<param name="actionName">subscription/index</param>
+			</result>
+
+			<result name="subscription.to.modify">
+				/WEB-INF/web/subscription/insert.jsp
+			</result>
+
+			<result name="subscription.insert.error">
+				/WEB-INF/web/subscription/insert.jsp
+			</result>
+			<result name="subscription.delete.error">
+				/WEB-INF/web/subscription/index.jsp
+			</result>
+
+			<result name="subscription.status.error">
+				/WEB-INF/web/subscription/index.jsp
+			</result>
+
+			<result name="subscription.insert.success" type="redirectAction">
+				<param name="actionName">subscription/index</param>
+			</result>
+
+			<result name="subscription.insert.payment" type="redirectAction">
+				<param name="actionName">payment/insert</param>
+				<param name="subscriptionId">%{subscriptionId}</param>
+			</result>
+		</action>
+
+		<!-- Gestione pagamenti -->
+		<action name="payment/*" method="{1}" class="paymentAction">
+			<result>/WEB-INF/web/payment/{1}.jsp</result>
+			<result name="invalid.token" type="redirectAction">
+				<param name="actionName">payment/index</param>
+			</result>
+			
+			<result name="payment.to.modify">
+				/WEB-INF/web/payment/insert.jsp
+			</result>
+
+			<result name="payment.insert.error">
+				/WEB-INF/web/payment/insert.jsp
+			</result>
+
+			<result name="payment.delete.success" type="redirectAction">
+				<param name="actionName">subscription/detail</param>
+				<param name="subscriptionIDToShow">%{subscriptionIDToShow}</param>
+			</result>
+
+			<result name="payment.insert.invoice" type="redirectAction">
+				<param name="actionName">invoice/insert</param>
+				<param name="paymentId">%{paymentId}</param>
+			</result>
+			
+			<result name="payment.stamp.invoice" type="redirectAction">
+				<param name="actionName">invoice/stamp</param>
+				<param name="invoiceId">%{invoiceId}</param>
+			</result>
+			
+		</action>
+
+		<!-- Gestione fatture -->
+		<action name="invoice/*" method="{1}" class="invoiceAction">
+			<result>/WEB-INF/web/invoice/{1}.jsp</result>
+			<result name="invalid.token" type="redirectAction">
+				<param name="actionName">invoice/index</param>
+			</result>
+
+			<result name="invoice.stamp">
+				/WEB-INF/web/invoice/stamp.jsp
+			</result>
+
+		</action>
+
+		<!-- Gestione ricerche/alert -->
+		<action name="search/*" method="{1}" class="searchAction">
+			<result>/WEB-INF/web/search/{1}.jsp</result>
+			<result name="deadline.disable.ok" type="redirectAction">
+				<param name="actionName">search/paymentExpired</param>
+			</result>
+			
+			<result name="deadline.enable.ok" type="redirectAction">
+				<param name="actionName">search/paymentExpired</param>
+			</result>
+			
+			
+		</action>
+		
+		<!-- Gestione amministratore -->
+		<action name="profile/*" method="{1}" class="profileAction">
+			<result>/WEB-INF/web/profile/{1}.jsp</result>
+			
+			<result name="invalid.token" type="redirectAction">
+				<param name="actionName">profile/index</param>
+			</result>
+			
+			<result name="profile.insert.error">
+				/WEB-INF/web/profile/index.jsp
+			</result>
+			
+			<result name="profile.insert.success" type="redirectAction">
+				<param name="actionName">profile/index</param>
+			</result>
+			
+		</action>
+
+	</package>
+</struts>

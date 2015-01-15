@@ -1,0 +1,230 @@
+﻿<!doctype	html>
+<html	lang="it">
+	<head>
+		<meta	charset="UTF-8">
+		<link rel="stylesheet" href="css/common.css" />
+		<link rel="stylesheet" href="css/style_menu_dropdown.css" />
+		<link rel="stylesheet" href="css/jquery-ui_1.11.1.css" />
+		<script type="text/javascript" src="js/jquery_1.8.2.min.js"> /* */</script>
+		<script type="text/javascript" src="js/jquery-ui_1.11.1.min.js"> /* */</script>
+		<script type="text/javascript" src="js/datepicker-it.js"> /* */</script>
+		<title>D.Time's	-	Dance	&	Fitness	Accademy - Gestione</title>
+	</head>
+	<body>
+		<div class="main_container">
+			<div class="header">
+				<div class="logo_small">
+					<img alt="" src="./img/logo_small.jpg" />
+				</div>
+				<div class="menu">
+						<div class="wrapper-dropdown" style="width:100px;">
+							<a href="#"><span>Dashboard</span></a>
+						</div>
+						<div class="wrapper-dropdown multi selected" style="width:180px;">
+							<span>Gestione iscrizioni</span>
+					    <ul class="dropdown">
+					        <li><a href="#">Lista iscrizioni</a></li>
+					        <li><a href="#" >Nuova iscrizione</a></li>
+					    </ul>
+						</div>
+						<div class="wrapper-dropdown" style="width:94px;">
+							<a href="#"><span>Pagamenti</span></a>
+						</div>
+						<div class="wrapper-dropdown multi" style="width:210px;">
+							<span>Gestione pacchetti corsi</span>
+					    <ul class="dropdown">
+					        <li><a href="#">Lista pacchetti corsi</a></li>
+					        <li><a href="#">Nuovo pacchetto corso</a></li>
+					    </ul>
+						</div>
+						<div class="wrapper-dropdown multi" style="width:180px;">
+							<span>Cerca</span>
+					    <ul class="dropdown">
+					        <li><a href="#">Iscritti non paganti</a></li>
+					        <li><a href="#">Pagamenti effettuati</a></li>
+					    </ul>
+						</div>
+						<div class="wrapper-dropdown" style="width:100px;">
+							<a href="#"><span>Esci</span></a>
+						</div>
+				</div>
+				<div class="user">
+					<p>
+						<a href="#">
+							Valentina Lorenzetti
+						</a>
+					</p>
+					<a href="#">
+						<img src="./img/user.png" alt="" />
+					</a>
+				</div>
+			</div>
+			<div class="central_container">
+				<div class="section_preview">
+					<div class="title">
+						Pagamenti effettuati
+					</div>
+					<div class="status">
+						<div class="box orange">
+							<i class="icon-calendar"></i>
+							<div class="details">
+								<span class="big">September 22, 2014</span>
+								<span>Monday, 15:57</span>
+							</div>
+						</div>
+						<a href="#">
+							<div class="box red">
+								<i class="icon-money"></i>
+								<div class="details">
+									<span class="big">9</span>
+									<span >Iscritti non paganti</span>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+				<div class="main_section">
+					<div class="box-bordered box-color">
+						<div class="box-title">
+							<h3><i class="icon-th-list"></i>Overview</h3>
+						</div>
+						<div class="box-content nopadding">
+							<form action="#" method="POST" class="form-bordered">
+								<div class="control-group">
+									<label for="textfield" class="control-label">From :</label>
+									<div class="controls"><span id="sprytextfield3">
+										<input type="text" name="from" id="textfield22" class="input-medium datepick" value="2014-09-26" autocomplete="off">
+										<span class="textfieldRequiredMsg">A value is required.</span></span>
+									</div>
+								</div>
+								<div class="control-group">
+									<label for="textfield" class="control-label">To :</label>
+									<div class="controls"><span id="sprytextfield3">
+										<input type="text" name="to" id="textfield22" class="input-medium datepick" value="2014-09-26">
+										<span class="textfieldRequiredMsg">A value is required.</span></span>
+									</div>
+								</div>
+								<div class="form-actions">
+									<button type="submit" class="btn btn-primary">Save changes</button>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="clear">
+						
+					</div>
+					<div class="box-bordered box-color">
+							<div class="box-title">
+								<h3>
+									<i class="icon-inbox"></i>
+																Members Payments :2014/01/01   To : 2014-09-26								</h3>
+							</div>
+							<div class="box-content nopadding">
+								<div class="dataTables_wrapper">
+									<div class="DTTT_container">		
+										<a class="DTTT_button DTTT_button_xls" >
+											<span>Excel</span>
+										</a>
+										<a class="DTTT_button DTTT_button_pdf" >
+											<span>PDF</span>
+										</a>
+									</div>
+									<div class="dataTables_filter" ><label><span>Search:</span>  <input type="text" placeholder="Search here..."></label></div>
+									<table class="table table-nomargin dataTable dataTable-tools  table-bordered" >
+										<thead>
+											<tr >
+												<th class="sorting" rowspan="1" colspan="1" style="width: 131px;">Membership ID</th>
+												<th class="sorting" rowspan="1" colspan="1" style="width: 112px;">Name</th>
+												<th class="sorting" rowspan="1" colspan="1" style="width: 98px;">Total / Paid</th>
+												<th class="sorting" rowspan="1" colspan="1" style="width: 72px;">Expiry</th>
+												<th class="sorting" rowspan="1" colspan="1" style="width: 121px;">Payment Date</th>
+												<th class="sorting" rowspan="1" colspan="1" style="width: 95px;">invoice</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="odd">
+												<td class=" ">1409446019</td>
+												<td class=" ">test</td>
+												<td class=" ">100 / 100</td>
+												<td class=" ">2014-09-30</td>
+												<td class=" ">2014-08-31</td>
+												<td class=" ">09516073su1</td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="dataTables_info" >Showing <span>1</span> to <span>9</span> of <span>9</span> entries</div>
+									<div class="dataTables_paginate paging_full_numbers" >
+										<a class="first paginate_button paginate_button_disabled" >First</a>
+										<a class="previous paginate_button paginate_button_disabled" >Previous</a>
+										<span><a class="paginate_active">1</a></span>
+										<a  class="next paginate_button paginate_button_disabled" >Next</a>
+										<a  class="last paginate_button paginate_button_disabled" >Last</a>
+									</div>
+								</div>
+							</div>
+							<h4>Total Payments in This Date Range :42</h4>
+							<h4>Total Income in This Date Range :5661</h4>
+					</div>
+				</div>
+			</div>
+			<div class="footer_container footer_white">
+				<div class="footer">
+					<p>
+						Developed by Evangelisti Fernando Giuseppe
+					</p>
+				</div>
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+			
+			function DropDown(el) {
+				this.dd = el;
+				this.placeholder = this.dd.children('span');
+				this.opts = this.dd.find('ul.dropdown > li');
+				this.val = '';
+				this.index = -1;
+				this.initEvents();
+			}
+			DropDown.prototype = {
+				initEvents : function() {
+					var obj = this;
+
+					obj.dd.on('click', function(event){
+						$('.wrapper-dropdown.multi').removeClass('active');
+						$(this).toggleClass('active');
+						return false;
+					});
+
+					obj.opts.on('click',function(){
+						var opt = $(this);
+						obj.val = opt.text();
+						obj.index = opt.index();
+						obj.placeholder.text('Gender: ' + obj.val);
+					});
+				},
+				getValue : function() {
+					return this.val;
+				},
+				getIndex : function() {
+					return this.index;
+				}
+			}
+
+			$(function() {
+				
+				$( ".datepick" ).datepicker({ dateFormat: "dd/mm/yy" });
+				 $( ".datepick" ).datepicker( $.datepicker.regional[ "it" ] );
+				
+				var dd = new DropDown( $('.wrapper-dropdown.multi') );
+
+				$(document).click(function() {
+					// all dropdowns
+					$('.wrapper-dropdown.multi').removeClass('active');
+				});
+
+			});
+			
+		</script>
+	</body>
+</html>

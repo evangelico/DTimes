@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+	<persistence-unit name="default" transaction-type="RESOURCE_LOCAL">
+
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<class>it.fge.dtimes.model.deadline.DeadlineDTO</class>
+		<class>it.fge.dtimes.model.invoice.InvoiceDTO</class>
+		<class>it.fge.dtimes.model.packageCourses.PackageCoursesDTO</class>
+		<class>it.fge.dtimes.model.payment.PaymentDTO</class>
+		<class>it.fge.dtimes.model.subscription.SubscriptionDTO</class>
+		<class>it.fge.dtimes.model.user.UserDTO</class>
+		
+
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.show_sql" value="false" />
+			<property name="hibernate.use_sql_comments" value="false" />
+		</properties>
+
+	</persistence-unit>
+
+</persistence>

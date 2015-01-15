@@ -1,0 +1,53 @@
+html {
+	padding: 0;
+}
+
+body {
+	box-sizing: border-box;
+	height: 600px;
+	overflow: hidden;
+	width: 750px;
+	background: #FFF;
+	margin: 0 auto;
+	padding: .1in;
+}
+
+.header a {
+	display: none;
+}
+
+.header .address {
+	float: left;
+	font-size: 60%;
+}
+
+.header span {
+	margin: 0 0 1em 1em;
+}
+
+.header span img {
+	width: 240px;
+}
+
+.article, .article .address, table.meta, table.inventory {
+	margin: 2em 0 3em;
+}
+
+.article {
+	font-size: 10px;
+	margin-top: 0;
+}
+
+.article img {
+	width: 10%;
+	float: left;
+	margin-left: 3%;
+}
+
+table.meta, table.balance {
+	width: 40%;
+}
+
+.note {
+	font-size: 9px;
+}
