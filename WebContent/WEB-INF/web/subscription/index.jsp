@@ -36,7 +36,6 @@
 									<th class="sorting" rowspan="1" colspan="1">Cognome</th>
 									<th class="sorting" rowspan="1" colspan="1">Codice fiscale</th>
 									<th class="sorting" rowspan="1" colspan="1">Data di nascita</th>
-									<th class="sorting" rowspan="1" colspan="1">Indirizzo</th>
 									<th class="sorting" rowspan="1" colspan="1">E-mail</th>
 									<th class="sorting" rowspan="1" colspan="1">Numero di telefono</th>
 									<th class="sorting" rowspan="1" colspan="1">Numero di cellulare</th>
@@ -69,9 +68,6 @@
 										</td>
 										<td class=" ">
 											<s:date name="birthdayDate" format="dd/MM/yyyy" />
-										</td>
-										<td class=" ">
-											<s:property value="address" />
 										</td>
 										<td class=" ">
 											<s:property value="email" />
@@ -151,6 +147,10 @@
 						</div>
 					</div>
 				</div>
+				<h3>
+					Iscritti totali:
+					<s:property value="totalSubscriptions" />
+				</h3>
 			</div>
 		</div>
 	</div>

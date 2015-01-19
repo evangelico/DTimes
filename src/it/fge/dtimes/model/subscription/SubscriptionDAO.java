@@ -43,6 +43,15 @@ public interface SubscriptionDAO extends JpaRepository<SubscriptionDTO, Long> {
     
     @Query(value = "SELECT s FROM SubscriptionDTO s WHERE s.medicalCertificateDate < :now OR s.medicalCertificateDate IS NULL ORDER BY s.medicalCertificateDate ASC", countQuery = "SELECT COUNT(s.id) FROM SubscriptionDTO s WHERE s.medicalCertificateDate < :now OR s.medicalCertificateDate IS NULL ORDER BY s.medicalCertificateDate ASC")
     Page<SubscriptionDTO> findLikeNominative(@Param("now") Date date, Pageable paramPageable);
+
+    @Query(value = "SELECT COUNT(s.id) FROM SubscriptionDTO s JOIN s.packagesCourses pc WHERE pc.id = :plain AND (s.name LIKE %:nominative% OR s.surname LIKE %:nominative%)")
+	long countTotalSubscriptionByPlainAndNominative(@Param("nominative") String nominative,@Param("plain") long plainId);
+
+    @Query(value = "SELECT COUNT(s.id) FROM SubscriptionDTO s WHERE s.name LIKE %:nominative% OR s.surname LIKE %:nominative%")
+	long countTotalSubscriptionByNominative(@Param("nominative") String nominative);
+
+    @Query(value = "SELECT COUNT(s.id) FROM SubscriptionDTO s JOIN s.packagesCourses pc WHERE pc.id = :plain ")
+	long countTotalSubscriptionByPlain(@Param("plain") long plainId);
     
    
 }

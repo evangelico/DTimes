@@ -15,7 +15,7 @@ import org.hibernate.annotations.Type;
 import com.google.gson.annotations.Expose;
 
 @Entity
-@Table(name = "subscription", uniqueConstraints = {@UniqueConstraint(columnNames = {"id"}), @UniqueConstraint(columnNames = {"fiscalCode"})})
+@Table(name = "subscription", uniqueConstraints = { @UniqueConstraint(columnNames = { "id" }), @UniqueConstraint(columnNames = { "fiscalCode" }) })
 public class SubscriptionDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -44,10 +44,14 @@ public class SubscriptionDTO implements Serializable {
 	private boolean active;
 
 	@Expose
+	@Column(length = 255, nullable = true)
+	private String placeOfBirth;
+
+	@Expose
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date birthdayDate;
-	
+
 	@Expose
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = true)
@@ -78,7 +82,7 @@ public class SubscriptionDTO implements Serializable {
 	private List<PaymentDTO> payments = new ArrayList<PaymentDTO>();
 
 	@ManyToMany
-	@JoinTable(name = "subscription_packageCourses", joinColumns = {@JoinColumn(name = "subscriptionId", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "packageCoursesId", referencedColumnName = "id")})
+	@JoinTable(name = "subscription_packageCourses", joinColumns = { @JoinColumn(name = "subscriptionId", referencedColumnName = "id") }, inverseJoinColumns = { @JoinColumn(name = "packageCoursesId", referencedColumnName = "id") })
 	private List<PackageCoursesDTO> packagesCourses = new ArrayList<PackageCoursesDTO>();
 
 	@OneToMany(mappedBy = "subscription")
@@ -206,46 +210,52 @@ public class SubscriptionDTO implements Serializable {
 	public void setDeadlines(List<DeadlineDTO> deadlines) {
 		this.deadlines = deadlines;
 	}
-	
+
 	public Date getMedicalCertificateDate() {
-	    return medicalCertificateDate;
+		return medicalCertificateDate;
 	}
 
 	public void setMedicalCertificateDate(Date medicalCertificateDate) {
-	    this.medicalCertificateDate = medicalCertificateDate;
+		this.medicalCertificateDate = medicalCertificateDate;
+	}
+
+	public String getPlaceOfBirth() {
+		return placeOfBirth;
+	}
+
+	public void setPlaceOfBirth(String placeOfBirth) {
+		this.placeOfBirth = placeOfBirth;
 	}
 
 	@Override
 	public String toString() {
-	    StringBuilder builder = new StringBuilder();
-	    builder.append("SubscriptionDTO [id=");
-	    builder.append(id);
-	    builder.append(", name=");
-	    builder.append(name);
-	    builder.append(", surname=");
-	    builder.append(surname);
-	    builder.append(", fiscalCode=");
-	    builder.append(fiscalCode);
-	    builder.append(", active=");
-	    builder.append(active);
-	    builder.append(", birthdayDate=");
-	    builder.append(birthdayDate);
-	    builder.append(", medicalCertificateDate=");
-	    builder.append(medicalCertificateDate);
-	    builder.append(", registrationDate=");
-	    builder.append(registrationDate);
-	    builder.append(", address=");
-	    builder.append(address);
-	    builder.append(", email=");
-	    builder.append(email);
-	    builder.append(", phoneNumber=");
-	    builder.append(phoneNumber);
-	    builder.append(", cellNumber=");
-	    builder.append(cellNumber);
-	    builder.append("]");
-	    return builder.toString();
+		StringBuilder builder = new StringBuilder();
+		builder.append("SubscriptionDTO [id=");
+		builder.append(id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", surname=");
+		builder.append(surname);
+		builder.append(", fiscalCode=");
+		builder.append(fiscalCode);
+		builder.append(", active=");
+		builder.append(active);
+		builder.append(", birthdayDate=");
+		builder.append(birthdayDate);
+		builder.append(", medicalCertificateDate=");
+		builder.append(medicalCertificateDate);
+		builder.append(", registrationDate=");
+		builder.append(registrationDate);
+		builder.append(", address=");
+		builder.append(address);
+		builder.append(", email=");
+		builder.append(email);
+		builder.append(", phoneNumber=");
+		builder.append(phoneNumber);
+		builder.append(", cellNumber=");
+		builder.append(cellNumber);
+		builder.append("]");
+		return builder.toString();
 	}
-
-	
 
 }

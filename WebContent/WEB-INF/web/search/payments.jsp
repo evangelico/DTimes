@@ -120,32 +120,32 @@
 						</div>
 						<div class="dataTables_paginate paging_full_numbers">
 							<s:if test="!payments.firstPage">
-								<a href="<s:url action="search/payment"><s:param name="page" value="0"/><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="first paginate_button paginate_button_disabled"> Inizio </a>
+								<a href="<s:url action="search/payments"><s:param name="page" value="0"/><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="first paginate_button paginate_button_disabled"> Inizio </a>
 							</s:if>
 							<s:else>
-								<a href="<s:url action="search/payment"><s:param name="page"><s:property value="page"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="first paginate_button paginate_button_disabled"> Inizio </a>
+								<a href="<s:url action="search/payments"><s:param name="page"><s:property value="page"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="first paginate_button paginate_button_disabled"> Inizio </a>
 							</s:else>
 							<s:if test="payments.hasPreviousPage()">
-								<a href="<s:url action="search/payment"><s:param name="page"><s:property value="page-1"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="previous paginate_button paginate_button_disabled"> Precedente </a>
+								<a href="<s:url action="search/payments"><s:param name="page"><s:property value="page-1"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="previous paginate_button paginate_button_disabled"> Precedente </a>
 							</s:if>
 							<s:else>
-								<a href="<s:url action="search/payment"><s:param name="page"><s:property value="page"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="previous paginate_button paginate_button_disabled"> Precedente </a>
+								<a href="<s:url action="search/payments"><s:param name="page"><s:property value="page"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="previous paginate_button paginate_button_disabled"> Precedente </a>
 							</s:else>
 							<span>
-								<a class="paginate_active" href="<s:url action="search/payment"><s:param name="page"><s:property value="page"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>"> <s:property value="page+1" />
+								<a class="paginate_active" href="<s:url action="search/payments"><s:param name="page"><s:property value="page"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>"> <s:property value="page+1" />
 								</a>
 							</span>
 							<s:if test="payments.hasNextPage()">
-								<a href="<s:url action="search/payment"><s:param name="page"><s:property value="page+1"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="next paginate_button paginate_button_disabled">Successiva</a>
+								<a href="<s:url action="search/payments"><s:param name="page"><s:property value="page+1"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="next paginate_button paginate_button_disabled">Successiva</a>
 							</s:if>
 							<s:else>
-								<a href="<s:url action="search/payment"><s:param name="page"><s:property value="page"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="next paginate_button paginate_button_disabled">Successiva</a>
+								<a href="<s:url action="search/payments"><s:param name="page"><s:property value="page"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="next paginate_button paginate_button_disabled">Successiva</a>
 							</s:else>
 							<s:if test="!payments.lastPage">
-								<a href="<s:url action="search/payment"><s:param name="page"><s:property value="payments.totalPages-1"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="last paginate_button paginate_button_disabled">Ultima</a>
+								<a href="<s:url action="search/payments"><s:param name="page"><s:property value="payments.totalPages-1"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="last paginate_button paginate_button_disabled">Ultima</a>
 							</s:if>
 							<s:else>
-								<a href="<s:url action="search/payment"><s:param name="page"><s:property value="page"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="last paginate_button paginate_button_disabled">Ultima</a>
+								<a href="<s:url action="search/payments"><s:param name="page"><s:property value="page"/></s:param><s:param name="paymentPeriod"><s:property value="paymentPeriod"/></s:param><s:param name="plainId"><s:property value="plainId"/></s:param><s:param name="nameFilter"><s:property value="nameFilter"/></s:param></s:url>" class="last paginate_button paginate_button_disabled">Ultima</a>
 							</s:else>
 						</div>
 					</div>

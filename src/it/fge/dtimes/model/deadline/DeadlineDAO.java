@@ -22,7 +22,7 @@ public interface DeadlineDAO extends JpaRepository<DeadlineDTO, Long> {
     @Query(value = "SELECT COUNT(d.id) FROM deadline d WHERE d.packageCoursesId = :plainId AND d.paymentId IS NOT NULL AND d.active='T'", nativeQuery = true)
     public abstract BigInteger countByPlain(@Param("plainId") long plainId);
 
-    @Query(value = "SELECT COUNT(d.id) FROM deadline d WHERE d.packageCoursesId = :plainId AND d.deadlineDate >= :startDate AND d.deadlineDate <= :endDate AND d.active='T'", nativeQuery = true)
+    @Query(value = "SELECT COUNT(d.id) FROM deadline d WHERE d.packageCoursesId = :plainId AND d.deadlineDate >= :startDate AND d.deadlineDate <= :endDate AND d.active='T' AND d.paymentId IS NOT NULL", nativeQuery = true)
     public abstract BigInteger countByPlainInPeriod(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("plainId") long plainId);
 
     @Modifying
@@ -105,7 +105,7 @@ public interface DeadlineDAO extends JpaRepository<DeadlineDTO, Long> {
     @Query(value = "SELECT SUM(d.packageCourses.amount) FROM DeadlineDTO d WHERE (d.payment IS NULL AND (d.deadlineDate <= :date OR d.packageCourses.subscriptionPlain = 'T')) AND d.packageCourses.id = :plain AND (d.subscription.name LIKE %:nominative% OR d.subscription.surname LIKE %:nominative%) AND d.active='F'")
     public abstract Object sumAllHideLikeNominativeAndPlain(@Param("date") Date time, @Param("nominative") String nameFilter, @Param("plain") long plainFilter);
 
-    @Query(value = "SELECT d FROM DeadlineDTO d WHERE d.payment IS NULL AND d.subscription.id = :subId AND d.active='T'")
+    @Query(value = "SELECT d FROM DeadlineDTO d WHERE d.payment IS NULL AND d.subscription.id = :subId AND d.active='T' order BY d.packageCourses.id ASC,d.deadlineDate ASC")
     public abstract List<DeadlineDTO> findAllExpiredNoPaginated(@Param("subId") long id);
 
     @Modifying

@@ -63,10 +63,18 @@
 							</div>
 						</div>
 						<div class="control-group">
-							<label for="textfield" class="control-label">Codice fiscale* :</label>
+							<label for="textfield" class="control-label">Codice fiscale :</label>
 							<div class="controls">
 								<span id="sprytextfield1">
 									<s:textfield name="subscription.fiscalCode" id="name" cssClass="input-xlarge" maxlength="100" />
+								</span>
+							</div>
+						</div>
+						<div class="control-group">
+							<label for="textfield" class="control-label">Luogo di nascita :</label>
+							<div class="controls">
+								<span id="sprytextfield1">
+									<s:textfield name="subscription.placeOfBirth" id="textfield22" cssClass="input-xlarge" maxlength="100"/>
 								</span>
 							</div>
 						</div>

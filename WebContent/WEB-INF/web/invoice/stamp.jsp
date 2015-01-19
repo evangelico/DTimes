@@ -21,14 +21,6 @@
 	<table class="meta">
 		<tbody>
 			<tr>
-				<th><span>Ricevuta n°</span></th>
-				<td>
-					<span>
-						<s:property value="invoice.id" />
-					</span>
-				</td>
-			</tr>
-			<tr>
 				<th><span>Data emissione</span></th>
 				<td>
 					<span>
@@ -40,18 +32,6 @@
 				<th><span>Codice fiscale</span></th>
 				<td>
 					<s:property value="invoice.subscription.fiscalCode" />
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<table class="meta">
-		<tbody>
-			<tr>
-				<th><span>Nominativo</span></th>
-				<td>
-					<span>
-						<s:property value="%{invoice.subscription.name +' '+ invoice.subscription.surname}" />
-					</span>
 				</td>
 			</tr>
 			<tr>
@@ -66,6 +46,33 @@
 				<th><span>Indirizzo</span></th>
 				<td>
 					<s:property value="invoice.subscription.address" />
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="meta">
+		<tbody>
+			<tr>
+				<th><span>Ricevuta n°</span></th>
+				<td>
+					<span>
+						<s:property value="invoice.id" />
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<th><span>Nominativo</span></th>
+				<td>
+					<span>
+						<s:property value="%{invoice.subscription.name +' '+ invoice.subscription.surname}" />
+					</span>
+				</td>
+			</tr>
+			
+			<tr>
+				<th><span>Luogo da nascita</span></th>
+				<td>
+					<s:property value="invoice.subscription.placeOfBirth" />
 				</td>
 			</tr>
 		</tbody>
@@ -117,9 +124,7 @@
 								<s:property value="amount" />
 							</span>
 						</td>
-						<td>
-							<span> &nbsp; </span>
-						</td>
+						
 					</tr>
 				</s:if>
 			</s:iterator>

@@ -8,14 +8,13 @@ import it.fge.dtimes.model.deadline.DeadlineDTO;
 import it.fge.dtimes.model.packageCourses.PackageCoursesDTO;
 import it.fge.dtimes.model.payment.PaymentDTO;
 import it.fge.dtimes.model.subscription.SubscriptionDTO;
+import it.fge.dtimes.util.Util;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -38,11 +37,6 @@ public class SearchAction extends BaseActionSupport {
 
 	private String paymentPeriod;
 	private Map<String, String> paymentsPeriod = new HashMap<String, String>();
-
-	private SimpleDateFormat sdfPeriodCod = new SimpleDateFormat("MM_yyyy",
-			Locale.ITALIAN);
-	private SimpleDateFormat sdfPeriodLabel = new SimpleDateFormat("MMMM yyyy",
-			Locale.ITALIAN);
 
 	private Page<PaymentDTO> payments;
 
@@ -118,12 +112,9 @@ public class SearchAction extends BaseActionSupport {
 		try {
 
 			if (StringUtils.isNotBlank(nameFilter)) {
-				subscriptions = subscriptionBusiness
-						.findAllCertificatesExpiredLikeNominative(page, size,
-								new Date(), nameFilter);
+				subscriptions = subscriptionBusiness.findAllCertificatesExpiredLikeNominative(page, size, new Date(), nameFilter);
 			} else {
-				subscriptions = subscriptionBusiness
-						.findAllCertificatesExpired(page, size, new Date());
+				subscriptions = subscriptionBusiness.findAllCertificatesExpired(page, size, new Date());
 			}
 		} catch (Exception e) {
 			logger.error("Errore", e);
@@ -135,12 +126,10 @@ public class SearchAction extends BaseActionSupport {
 
 	public long getCountSubscriptionByPlain(long plainId) {
 		if (logger.isDebugEnabled())
-			logger.debug("Numero iscritti per il corso: " + plainId
-					+ " nel periodo: " + paymentPeriod);
+			logger.debug("Numero iscritti per il corso: " + plainId + " nel periodo: " + paymentPeriod);
 		long count = 0;
 		try {
-			count = subscriptionBusiness.countByPlainInPeriod(plainId, null,
-					null);
+			count = subscriptionBusiness.countByPlainInPeriod(plainId, null, null);
 
 		} catch (Exception e) {
 			logger.error("Errore", e);
@@ -188,16 +177,15 @@ public class SearchAction extends BaseActionSupport {
 
 	public double getTotalAmountByPlain(long plainId, String paymentPeriod) {
 		if (logger.isDebugEnabled())
-			logger.debug("Incasso totale il corso: " + plainId
-					+ " nel periodo: " + paymentPeriod);
+			logger.debug("Incasso totale il corso: " + plainId + " nel periodo: " + paymentPeriod);
 		double totalAmount = 0;
 		try {
 			PackageCoursesDTO plainTmp = plainBusiness.findById(plainId);
 
 			if (StringUtils.isNotBlank(paymentPeriod)) {
 				Calendar startPeriod = Calendar.getInstance();
-				String month = paymentPeriod.trim().split("_")[0];
-				String year = paymentPeriod.trim().split("_")[1];
+				String month = paymentPeriod.trim().split("_")[1];
+				String year = paymentPeriod.trim().split("_")[0];
 				startPeriod.set(Calendar.MONTH, Integer.parseInt(month) - 1);
 				startPeriod.set(Calendar.YEAR, Integer.parseInt(year));
 				startPeriod.set(Calendar.DAY_OF_MONTH, 1);
@@ -209,21 +197,16 @@ public class SearchAction extends BaseActionSupport {
 				Calendar endPeriod = Calendar.getInstance();
 				endPeriod.set(Calendar.MONTH, Integer.parseInt(month) - 1);
 				endPeriod.set(Calendar.YEAR, Integer.parseInt(year));
-				endPeriod.set(Calendar.DAY_OF_MONTH,
-						endPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
+				endPeriod.set(Calendar.DAY_OF_MONTH, endPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
 				endPeriod.set(Calendar.HOUR_OF_DAY, 23);
 				endPeriod.set(Calendar.MINUTE, 59);
 				endPeriod.set(Calendar.SECOND, 59);
 				endPeriod.set(Calendar.MILLISECOND, 999);
 				if (!plainTmp.isSingleLesson()) {
-					long countPayment = deadlineBusiness.countByPlainInPeriod(
-							startPeriod.getTime(), endPeriod.getTime(),
-							plainTmp);
+					long countPayment = deadlineBusiness.countByPlainInPeriod(startPeriod.getTime(), endPeriod.getTime(), plainTmp);
 					totalAmount = countPayment * plainTmp.getAmount();
 				} else {
-					long countPayment = paymentBusiness
-							.getCountByPlainInPeriod(startPeriod.getTime(),
-									endPeriod.getTime(), plainTmp.getId());
+					long countPayment = paymentBusiness.getCountByPlainInPeriod(startPeriod.getTime(), endPeriod.getTime(), plainTmp.getId());
 					totalAmount = countPayment * plainTmp.getAmount();
 				}
 			} else {
@@ -231,8 +214,7 @@ public class SearchAction extends BaseActionSupport {
 					long countPayment = deadlineBusiness.countByPlain(plainTmp);
 					totalAmount = countPayment * plainTmp.getAmount();
 				} else {
-					long countPayment = paymentBusiness
-							.getCountByPlain(plainTmp.getId());
+					long countPayment = paymentBusiness.getCountByPlain(plainTmp.getId());
 					totalAmount = countPayment * plainTmp.getAmount();
 				}
 			}
@@ -265,37 +247,24 @@ public class SearchAction extends BaseActionSupport {
 			plainsSelectList = plainBusiness.findAll(0, 999).getContent();
 
 			if (StringUtils.isNotBlank(nameFilter) && plainFilter > 0) {
-				deadlines = deadlineBusiness.findAllHideLikeNominativeAndPlain(
-						page, size, dateTmp.getTime(), nameFilter, plainFilter);
-				if (deadlines.getContent() != null
-						&& !deadlines.getContent().isEmpty()) {
-					totalUnpaid = deadlineBusiness
-							.sumAllHideLikeNominativeAndPlain(
-									dateTmp.getTime(), nameFilter, plainFilter);
+				deadlines = deadlineBusiness.findAllHideLikeNominativeAndPlain(page, size, dateTmp.getTime(), nameFilter, plainFilter);
+				if (deadlines.getContent() != null && !deadlines.getContent().isEmpty()) {
+					totalUnpaid = deadlineBusiness.sumAllHideLikeNominativeAndPlain(dateTmp.getTime(), nameFilter, plainFilter);
 				}
 			} else if (StringUtils.isNotBlank(nameFilter)) {
-				deadlines = deadlineBusiness.findAllHideLikeNominative(page,
-						size, dateTmp.getTime(), nameFilter);
-				if (deadlines.getContent() != null
-						&& !deadlines.getContent().isEmpty()) {
-					totalUnpaid = deadlineBusiness.sumAllHideLikeNominative(
-							dateTmp.getTime(), nameFilter);
+				deadlines = deadlineBusiness.findAllHideLikeNominative(page, size, dateTmp.getTime(), nameFilter);
+				if (deadlines.getContent() != null && !deadlines.getContent().isEmpty()) {
+					totalUnpaid = deadlineBusiness.sumAllHideLikeNominative(dateTmp.getTime(), nameFilter);
 				}
 			} else if (plainFilter > 0) {
-				deadlines = deadlineBusiness.findAllHideByPlain(page, size,
-						dateTmp.getTime(), plainFilter);
-				if (deadlines.getContent() != null
-						&& !deadlines.getContent().isEmpty()) {
-					totalUnpaid = deadlineBusiness.sumAllHideByPlain(
-							dateTmp.getTime(), plainFilter);
+				deadlines = deadlineBusiness.findAllHideByPlain(page, size, dateTmp.getTime(), plainFilter);
+				if (deadlines.getContent() != null && !deadlines.getContent().isEmpty()) {
+					totalUnpaid = deadlineBusiness.sumAllHideByPlain(dateTmp.getTime(), plainFilter);
 				}
 			} else {
-				deadlines = deadlineBusiness.findAllHide(page, size,
-						dateTmp.getTime());
-				if (deadlines.getContent() != null
-						&& !deadlines.getContent().isEmpty()) {
-					totalUnpaid = deadlineBusiness
-							.sumAllHide(dateTmp.getTime());
+				deadlines = deadlineBusiness.findAllHide(page, size, dateTmp.getTime());
+				if (deadlines.getContent() != null && !deadlines.getContent().isEmpty()) {
+					totalUnpaid = deadlineBusiness.sumAllHide(dateTmp.getTime());
 				}
 			}
 		} catch (Exception e) {
@@ -307,18 +276,16 @@ public class SearchAction extends BaseActionSupport {
 
 	public double getTotalToTeacherByPlain(long plainId, String paymentPeriod) {
 		if (logger.isDebugEnabled())
-			logger.debug("Corrispettivo per il corso: " + plainId
-					+ " nel periodo: " + paymentPeriod);
+			logger.debug("Corrispettivo per il corso: " + plainId + " nel periodo: " + paymentPeriod);
 		double totalToTeacher = 0;
 		try {
 			PackageCoursesDTO plainTmp = plainBusiness.findById(plainId);
 			if (plainTmp.getTeacherPercentage() > 0) {
 				if (StringUtils.isNotBlank(paymentPeriod)) {
 					Calendar startPeriod = Calendar.getInstance();
-					String month = paymentPeriod.trim().split("_")[0];
-					String year = paymentPeriod.trim().split("_")[1];
-					startPeriod
-							.set(Calendar.MONTH, Integer.parseInt(month) - 1);
+					String month = paymentPeriod.trim().split("_")[1];
+					String year = paymentPeriod.trim().split("_")[0];
+					startPeriod.set(Calendar.MONTH, Integer.parseInt(month) - 1);
 					startPeriod.set(Calendar.YEAR, Integer.parseInt(year));
 					startPeriod.set(Calendar.DAY_OF_MONTH, 1);
 					startPeriod.set(Calendar.HOUR_OF_DAY, 0);
@@ -329,46 +296,31 @@ public class SearchAction extends BaseActionSupport {
 					Calendar endPeriod = Calendar.getInstance();
 					endPeriod.set(Calendar.MONTH, Integer.parseInt(month) - 1);
 					endPeriod.set(Calendar.YEAR, Integer.parseInt(year));
-					endPeriod.set(Calendar.DAY_OF_MONTH,
-							endPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
+					endPeriod.set(Calendar.DAY_OF_MONTH, endPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
 					endPeriod.set(Calendar.HOUR_OF_DAY, 23);
 					endPeriod.set(Calendar.MINUTE, 59);
 					endPeriod.set(Calendar.SECOND, 59);
 					endPeriod.set(Calendar.MILLISECOND, 999);
 					if (!plainTmp.isSingleLesson()) {
-						long countPayment = deadlineBusiness
-								.countByPlainInPeriod(startPeriod.getTime(),
-										endPeriod.getTime(), plainTmp);
-						long totalAmountTmp = countPayment
-								* plainTmp.getAmount();
+						long countPayment = deadlineBusiness.countByPlainInPeriod(startPeriod.getTime(), endPeriod.getTime(), plainTmp);
+						long totalAmountTmp = countPayment * plainTmp.getAmount();
 
-						totalToTeacher = (totalAmountTmp * plainTmp
-								.getTeacherPercentage()) / 100;
+						totalToTeacher = (totalAmountTmp * plainTmp.getTeacherPercentage()) / 100;
 					} else {
-						long countPayment = paymentBusiness
-								.getCountByPlainInPeriod(startPeriod.getTime(),
-										endPeriod.getTime(), plainTmp.getId());
-						long totalAmountTmp = countPayment
-								* plainTmp.getAmount();
+						long countPayment = paymentBusiness.getCountByPlainInPeriod(startPeriod.getTime(), endPeriod.getTime(), plainTmp.getId());
+						long totalAmountTmp = countPayment * plainTmp.getAmount();
 
-						totalToTeacher = (totalAmountTmp * plainTmp
-								.getTeacherPercentage()) / 100;
+						totalToTeacher = (totalAmountTmp * plainTmp.getTeacherPercentage()) / 100;
 					}
 				} else {
 					if (!plainTmp.isSingleLesson()) {
-						long countPayment = deadlineBusiness
-								.countByPlain(plainTmp);
-						long totalAmountTmp = countPayment
-								* plainTmp.getAmount();
-						totalToTeacher = (totalAmountTmp * plainTmp
-								.getTeacherPercentage()) / 100;
+						long countPayment = deadlineBusiness.countByPlain(plainTmp);
+						long totalAmountTmp = countPayment * plainTmp.getAmount();
+						totalToTeacher = (totalAmountTmp * plainTmp.getTeacherPercentage()) / 100;
 					} else {
-						long countPayment = paymentBusiness
-								.getCountByPlain(plainTmp.getId());
-						long totalAmountTmp = countPayment
-								* plainTmp.getAmount();
-						totalToTeacher = (totalAmountTmp * plainTmp
-								.getTeacherPercentage()) / 100;
+						long countPayment = paymentBusiness.getCountByPlain(plainTmp.getId());
+						long totalAmountTmp = countPayment * plainTmp.getAmount();
+						totalToTeacher = (totalAmountTmp * plainTmp.getTeacherPercentage()) / 100;
 					}
 				}
 			}
@@ -401,38 +353,24 @@ public class SearchAction extends BaseActionSupport {
 			plainsSelectList = plainBusiness.findAll(0, 999).getContent();
 
 			if (StringUtils.isNotBlank(nameFilter) && plainFilter > 0) {
-				deadlines = deadlineBusiness
-						.findAllExpiredLikeNominativeAndPlain(page, size,
-								dateTmp.getTime(), nameFilter, plainFilter);
-				if (deadlines.getContent() != null
-						&& !deadlines.getContent().isEmpty()) {
-					totalUnpaid = deadlineBusiness
-							.sumAllExpiredLikeNominativeAndPlain(
-									dateTmp.getTime(), nameFilter, plainFilter);
+				deadlines = deadlineBusiness.findAllExpiredLikeNominativeAndPlain(page, size, dateTmp.getTime(), nameFilter, plainFilter);
+				if (deadlines.getContent() != null && !deadlines.getContent().isEmpty()) {
+					totalUnpaid = deadlineBusiness.sumAllExpiredLikeNominativeAndPlain(dateTmp.getTime(), nameFilter, plainFilter);
 				}
 			} else if (StringUtils.isNotBlank(nameFilter)) {
-				deadlines = deadlineBusiness.findAllExpiredLikeNominative(page,
-						size, dateTmp.getTime(), nameFilter);
-				if (deadlines.getContent() != null
-						&& !deadlines.getContent().isEmpty()) {
-					totalUnpaid = deadlineBusiness.sumAllExpiredLikeNominative(
-							dateTmp.getTime(), nameFilter);
+				deadlines = deadlineBusiness.findAllExpiredLikeNominative(page, size, dateTmp.getTime(), nameFilter);
+				if (deadlines.getContent() != null && !deadlines.getContent().isEmpty()) {
+					totalUnpaid = deadlineBusiness.sumAllExpiredLikeNominative(dateTmp.getTime(), nameFilter);
 				}
 			} else if (plainFilter > 0) {
-				deadlines = deadlineBusiness.findAllExpiredByPlain(page, size,
-						dateTmp.getTime(), plainFilter);
-				if (deadlines.getContent() != null
-						&& !deadlines.getContent().isEmpty()) {
-					totalUnpaid = deadlineBusiness.sumAllExpiredByPlain(
-							dateTmp.getTime(), plainFilter);
+				deadlines = deadlineBusiness.findAllExpiredByPlain(page, size, dateTmp.getTime(), plainFilter);
+				if (deadlines.getContent() != null && !deadlines.getContent().isEmpty()) {
+					totalUnpaid = deadlineBusiness.sumAllExpiredByPlain(dateTmp.getTime(), plainFilter);
 				}
 			} else {
-				deadlines = deadlineBusiness.findAllExpired(page, size,
-						dateTmp.getTime());
-				if (deadlines.getContent() != null
-						&& !deadlines.getContent().isEmpty()) {
-					totalUnpaid = deadlineBusiness.sumAllExpired(dateTmp
-							.getTime());
+				deadlines = deadlineBusiness.findAllExpired(page, size, dateTmp.getTime());
+				if (deadlines.getContent() != null && !deadlines.getContent().isEmpty()) {
+					totalUnpaid = deadlineBusiness.sumAllExpired(dateTmp.getTime());
 				}
 			}
 		} catch (Exception e) {
@@ -445,15 +383,14 @@ public class SearchAction extends BaseActionSupport {
 
 	public String payments() {
 		if (logger.isDebugEnabled())
-			logger.debug("Visualizzo la lista dei pagamenti effettuati per il periodo: "
-					+ paymentPeriod + " - corso: " + plainId);
+			logger.debug("Visualizzo la lista dei pagamenti effettuati per il periodo: " + paymentPeriod + " - corso: " + plainId);
 		try {
 			totalPaid = 0;
 			Calendar now = Calendar.getInstance();
 			if (StringUtils.isNotBlank(paymentPeriod) && plainId > 0) {
 				Calendar startPeriod = Calendar.getInstance();
-				String month = paymentPeriod.trim().split("_")[0];
-				String year = paymentPeriod.trim().split("_")[1];
+				String month = paymentPeriod.trim().split("_")[1];
+				String year = paymentPeriod.trim().split("_")[0];
 				startPeriod.set(Calendar.MONTH, Integer.parseInt(month) - 1);
 				startPeriod.set(Calendar.YEAR, Integer.parseInt(year));
 				startPeriod.set(Calendar.DAY_OF_MONTH, 1);
@@ -465,55 +402,40 @@ public class SearchAction extends BaseActionSupport {
 				Calendar endPeriod = Calendar.getInstance();
 				endPeriod.set(Calendar.MONTH, Integer.parseInt(month) - 1);
 				endPeriod.set(Calendar.YEAR, Integer.parseInt(year));
-				endPeriod.set(Calendar.DAY_OF_MONTH,
-						endPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
+				endPeriod.set(Calendar.DAY_OF_MONTH, endPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
 				endPeriod.set(Calendar.HOUR_OF_DAY, 23);
 				endPeriod.set(Calendar.MINUTE, 59);
 				endPeriod.set(Calendar.SECOND, 59);
 				endPeriod.set(Calendar.MILLISECOND, 999);
 
 				if (StringUtils.isBlank(nameFilter)) {
-					payments = paymentBusiness.findAllInPeriodByPlain(
-							startPeriod.getTime(), endPeriod.getTime(),
-							plainId, page, size);
+					payments = paymentBusiness.findAllInPeriodByPlain(startPeriod.getTime(), endPeriod.getTime(), plainId, page, size);
 				} else {
-					payments = paymentBusiness
-							.findAllInPeriodByPlainAdnNominative(
-									startPeriod.getTime(), endPeriod.getTime(),
-									plainId, nameFilter, page, size);
+					payments = paymentBusiness.findAllInPeriodByPlainAdnNominative(startPeriod.getTime(), endPeriod.getTime(), plainId, nameFilter, page, size);
 				}
-				if (payments.getContent() != null
-						&& !payments.getContent().isEmpty()) {
-					PackageCoursesDTO plainTmp = plainBusiness
-							.findById(plainId);
+				if (payments.getContent() != null && !payments.getContent().isEmpty()) {
+					PackageCoursesDTO plainTmp = plainBusiness.findById(plainId);
 					for (PaymentDTO pay : payments.getContent()) {
 						if (StringUtils.isBlank(nameFilter)) {
-							long dlCount = deadlineBusiness
-									.countByPaymentAndPlain(pay, plainTmp);
-							totalPaid = totalPaid
-									+ (dlCount * plainTmp.getAmount());
+							long dlCount = deadlineBusiness.countByPaymentAndPlain(pay, plainTmp);
+							totalPaid = totalPaid + (dlCount * plainTmp.getAmount());
 						} else {
-							long dlCount = deadlineBusiness
-									.countByPaymentAndPlainAndNominative(pay,
-											plainTmp, nameFilter);
-							totalPaid = totalPaid
-									+ (dlCount * plainTmp.getAmount());
+							long dlCount = deadlineBusiness.countByPaymentAndPlainAndNominative(pay, plainTmp, nameFilter);
+							totalPaid = totalPaid + (dlCount * plainTmp.getAmount());
 						}
 					}
 
 					if (totalPaid > 0) {
-						if (plainTmp != null
-								&& plainTmp.getTeacherPercentage() > 0) {
-							teacherToPaid = (totalPaid * plainTmp
-									.getTeacherPercentage()) / 100;
+						if (plainTmp != null && plainTmp.getTeacherPercentage() > 0) {
+							teacherToPaid = (totalPaid * plainTmp.getTeacherPercentage()) / 100;
 						}
 					}
 				}
 
 			} else if (StringUtils.isNotBlank(paymentPeriod)) {
 				Calendar startPeriod = Calendar.getInstance();
-				String month = paymentPeriod.trim().split("_")[0];
-				String year = paymentPeriod.trim().split("_")[1];
+				String month = paymentPeriod.trim().split("_")[1];
+				String year = paymentPeriod.trim().split("_")[0];
 				startPeriod.set(Calendar.MONTH, Integer.parseInt(month) - 1);
 				startPeriod.set(Calendar.YEAR, Integer.parseInt(year));
 				startPeriod.set(Calendar.DAY_OF_MONTH, 1);
@@ -525,110 +447,61 @@ public class SearchAction extends BaseActionSupport {
 				Calendar endPeriod = Calendar.getInstance();
 				endPeriod.set(Calendar.MONTH, Integer.parseInt(month) - 1);
 				endPeriod.set(Calendar.YEAR, Integer.parseInt(year));
-				endPeriod.set(Calendar.DAY_OF_MONTH,
-						endPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
+				endPeriod.set(Calendar.DAY_OF_MONTH, endPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
 				endPeriod.set(Calendar.HOUR_OF_DAY, 23);
 				endPeriod.set(Calendar.MINUTE, 59);
 				endPeriod.set(Calendar.SECOND, 59);
 				endPeriod.set(Calendar.MILLISECOND, 999);
 				if (StringUtils.isBlank(nameFilter)) {
-					payments = paymentBusiness.findAllInPeriod(
-							startPeriod.getTime(), endPeriod.getTime(), page,
-							size);
+					payments = paymentBusiness.findAllInPeriod(startPeriod.getTime(), endPeriod.getTime(), page, size);
 				} else {
-					payments = paymentBusiness.findAllInPeriodByNominative(
-							startPeriod.getTime(), endPeriod.getTime(),
-							nameFilter, page, size);
+					payments = paymentBusiness.findAllInPeriodByNominative(startPeriod.getTime(), endPeriod.getTime(), nameFilter, page, size);
 				}
-				if (payments.getContent() != null
-						&& !payments.getContent().isEmpty()) {
+				if (payments.getContent() != null && !payments.getContent().isEmpty()) {
 					if (StringUtils.isBlank(nameFilter)) {
-						totalPaid = paymentBusiness.getImportPaiedInPeriod(
-								startPeriod.getTime(), endPeriod.getTime())
-								.doubleValue();
+						totalPaid = paymentBusiness.getImportPaiedInPeriod(startPeriod.getTime(), endPeriod.getTime()).doubleValue();
 					} else {
-						totalPaid = paymentBusiness
-								.getImportPaiedInPeriodByNominative(
-										startPeriod.getTime(),
-										endPeriod.getTime(), nameFilter)
-								.doubleValue();
+						totalPaid = paymentBusiness.getImportPaiedInPeriodByNominative(startPeriod.getTime(), endPeriod.getTime(), nameFilter).doubleValue();
 					}
 
 				}
 			} else if (plainId > 0) {
 				if (StringUtils.isBlank(nameFilter)) {
-					payments = paymentBusiness.findAllByPlain(plainId, page,
-							size);
+					payments = paymentBusiness.findAllByPlain(plainId, page, size);
 				} else {
-					payments = paymentBusiness.findAllByPlainAndNominative(
-							plainId, nameFilter, page, size);
+					payments = paymentBusiness.findAllByPlainAndNominative(plainId, nameFilter, page, size);
 				}
-				if (payments.getContent() != null
-						&& !payments.getContent().isEmpty()) {
-					PackageCoursesDTO plainTmp = plainBusiness
-							.findById(plainId);
+				if (payments.getContent() != null && !payments.getContent().isEmpty()) {
+					PackageCoursesDTO plainTmp = plainBusiness.findById(plainId);
 					for (PaymentDTO pay : payments.getContent()) {
 						if (StringUtils.isBlank(nameFilter)) {
-							long dlCount = deadlineBusiness
-									.countByPaymentAndPlain(pay, plainTmp);
-							totalPaid = totalPaid
-									+ (dlCount * plainTmp.getAmount());
+							long dlCount = deadlineBusiness.countByPaymentAndPlain(pay, plainTmp);
+							totalPaid = totalPaid + (dlCount * plainTmp.getAmount());
 						} else {
-							long dlCount = deadlineBusiness
-									.countByPaymentAndPlainAndNominative(pay,
-											plainTmp, nameFilter);
-							totalPaid = totalPaid
-									+ (dlCount * plainTmp.getAmount());
+							long dlCount = deadlineBusiness.countByPaymentAndPlainAndNominative(pay, plainTmp, nameFilter);
+							totalPaid = totalPaid + (dlCount * plainTmp.getAmount());
 						}
 					}
 
 					if (totalPaid > 0) {
-						if (plainTmp != null
-								&& plainTmp.getTeacherPercentage() > 0) {
-							teacherToPaid = (totalPaid * plainTmp
-									.getTeacherPercentage()) / 100;
+						if (plainTmp != null && plainTmp.getTeacherPercentage() > 0) {
+							teacherToPaid = (totalPaid * plainTmp.getTeacherPercentage()) / 100;
 						}
 					}
 				}
 			} else if (StringUtils.isNotBlank(nameFilter)) {
-				payments = paymentBusiness.findAllByNominative(nameFilter,
-						page, size);
-				if (payments.getContent() != null
-						&& !payments.getContent().isEmpty()) {
-					totalPaid = paymentBusiness.getImportPaiedByNominative(
-							nameFilter).doubleValue();
+				payments = paymentBusiness.findAllByNominative(nameFilter, page, size);
+				if (payments.getContent() != null && !payments.getContent().isEmpty()) {
+					totalPaid = paymentBusiness.getImportPaiedByNominative(nameFilter).doubleValue();
 				}
 			} else {
 				payments = paymentBusiness.findAll(page, size);
-				if (payments.getContent() != null
-						&& !payments.getContent().isEmpty()) {
+				if (payments.getContent() != null && !payments.getContent().isEmpty()) {
 					totalPaid = paymentBusiness.getImportPaied().doubleValue();
 				}
 			}
 
-			Calendar startDate = Calendar.getInstance();
-			SubscriptionDTO subscriptionTmp = subscriptionBusiness
-					.getFirstSubscription(0, 1);
-			if (subscriptionTmp == null) {
-				startDate.set(Calendar.DAY_OF_MONTH, 1);
-				startDate.set(Calendar.MONTH, 8);
-				startDate.add(Calendar.YEAR, -1);
-				startDate.set(Calendar.HOUR_OF_DAY, 0);
-				startDate.set(Calendar.MINUTE, 0);
-				startDate.set(Calendar.SECOND, 0);
-				startDate.set(Calendar.MILLISECOND, 000);
-			} else {
-				startDate.setTime(subscriptionTmp.getRegistrationDate());
-
-				do {
-					paymentsPeriod.put(
-							sdfPeriodCod.format(startDate.getTime()),
-							StringUtils.capitalize(sdfPeriodLabel
-									.format(startDate.getTime())));
-					startDate.add(Calendar.MONTH, 1);
-				} while (startDate.before(now));
-			}
-
+			paymentsPeriod = Util.getPeriodToFilterList(now, subscriptionBusiness.getFirstSubscription(0, 1));
 			plains = plainBusiness.findAll(0, 9999);
 
 		} catch (Exception e) {
@@ -641,8 +514,7 @@ public class SearchAction extends BaseActionSupport {
 
 	public String plains() {
 		if (logger.isDebugEnabled())
-			logger.debug("Visualizzo gli incassi per corso nel periodo: "
-					+ paymentPeriod);
+			logger.debug("Visualizzo gli incassi per corso nel periodo: " + paymentPeriod);
 		totalUnpaid = 0;
 		try {
 			totalPaid = 0;
@@ -651,8 +523,8 @@ public class SearchAction extends BaseActionSupport {
 
 			if (StringUtils.isNotBlank(paymentPeriod)) {
 				Calendar startPeriod = Calendar.getInstance();
-				String month = paymentPeriod.trim().split("_")[0];
-				String year = paymentPeriod.trim().split("_")[1];
+				String month = paymentPeriod.trim().split("_")[1];
+				String year = paymentPeriod.trim().split("_")[0];
 				startPeriod.set(Calendar.MONTH, Integer.parseInt(month) - 1);
 				startPeriod.set(Calendar.YEAR, Integer.parseInt(year));
 				startPeriod.set(Calendar.DAY_OF_MONTH, 1);
@@ -664,83 +536,51 @@ public class SearchAction extends BaseActionSupport {
 				Calendar endPeriod = Calendar.getInstance();
 				endPeriod.set(Calendar.MONTH, Integer.parseInt(month) - 1);
 				endPeriod.set(Calendar.YEAR, Integer.parseInt(year));
-				endPeriod.set(Calendar.DAY_OF_MONTH,
-						endPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
+				endPeriod.set(Calendar.DAY_OF_MONTH, endPeriod.getActualMaximum(Calendar.DAY_OF_MONTH));
 				endPeriod.set(Calendar.HOUR_OF_DAY, 23);
 				endPeriod.set(Calendar.MINUTE, 59);
 				endPeriod.set(Calendar.SECOND, 59);
 				endPeriod.set(Calendar.MILLISECOND, 999);
 
 				plains = plainBusiness.findAll(page, size);
-				if (plains.getContent() != null
-						&& !plains.getContent().isEmpty()) {
+				if (plains.getContent() != null && !plains.getContent().isEmpty()) {
 					for (PackageCoursesDTO pc : plains) {
-						if (!pc.isSingleLesson()) {
-							long countDl = deadlineBusiness
-									.countByPlainInPeriod(
-											startPeriod.getTime(),
-											endPeriod.getTime(), (pc));
-							long totalPaidTmp = countDl * pc.getAmount();
-							totalPaid = totalPaid + totalPaidTmp;
-							teacherToPaid = teacherToPaid
-									+ ((totalPaidTmp * pc
-											.getTeacherPercentage()) / 100);
-						} else {
-							long totalPaidTmp = pc.getAmount();
-							totalPaid = totalPaid + totalPaidTmp;
-							teacherToPaid = teacherToPaid
-									+ ((totalPaidTmp * pc
-											.getTeacherPercentage()) / 100);
+						if (!pc.isSubscriptionPlain()) {
+							if (!pc.isSingleLesson()) {
+								long countDl = deadlineBusiness.countByPlainInPeriod(startPeriod.getTime(), endPeriod.getTime(), pc);
+								long totalPaidTmp = countDl * pc.getAmount();
+								totalPaid = totalPaid + totalPaidTmp;
+								teacherToPaid = teacherToPaid + ((totalPaidTmp * pc.getTeacherPercentage()) / 100);
+							} else {
+								long countPayment = paymentBusiness.getCountByPlainInPeriod(startPeriod.getTime(), endPeriod.getTime(), pc.getId());
+								long totalPaidTmp = pc.getAmount() * countPayment;
+								totalPaid = totalPaid + totalPaidTmp;
+								teacherToPaid = teacherToPaid + ((totalPaidTmp * pc.getTeacherPercentage()) / 100);
+							}
 						}
 					}
 				}
 
 			} else {
 				plains = plainBusiness.findAll(page, size);
-				if (plains.getContent() != null
-						&& !plains.getContent().isEmpty()) {
+				if (plains.getContent() != null && !plains.getContent().isEmpty()) {
 					for (PackageCoursesDTO pc : plains) {
 						if (!pc.isSingleLesson()) {
 							long countDl = deadlineBusiness.countByPlain(pc);
-
 							long totalPaidTmp = pc.getAmount() * countDl;
 							totalPaid = totalPaid + totalPaidTmp;
-							teacherToPaid = teacherToPaid
-									+ ((totalPaidTmp * pc
-											.getTeacherPercentage()) / 100);
+							teacherToPaid = teacherToPaid + ((totalPaidTmp * pc.getTeacherPercentage()) / 100);
 						} else {
-							long totalPaidTmp = pc.getAmount();
+							long countPayment = paymentBusiness.getCountByPlain(pc.getId());
+							long totalPaidTmp = pc.getAmount() * countPayment;
 							totalPaid = totalPaid + totalPaidTmp;
-							teacherToPaid = teacherToPaid
-									+ ((totalPaidTmp * pc
-											.getTeacherPercentage()) / 100);
+							teacherToPaid = teacherToPaid + ((totalPaidTmp * pc.getTeacherPercentage()) / 100);
 						}
 					}
 				}
 			}
 
-			Calendar startDate = Calendar.getInstance();
-			SubscriptionDTO subscriptionTmp = subscriptionBusiness
-					.getFirstSubscription(0, 1);
-			if (subscriptionTmp == null) {
-				startDate.set(Calendar.DAY_OF_MONTH, 1);
-				startDate.set(Calendar.MONTH, 8);
-				startDate.add(Calendar.YEAR, -1);
-				startDate.set(Calendar.HOUR_OF_DAY, 0);
-				startDate.set(Calendar.MINUTE, 0);
-				startDate.set(Calendar.SECOND, 0);
-				startDate.set(Calendar.MILLISECOND, 000);
-			} else {
-				startDate.setTime(subscriptionTmp.getRegistrationDate());
-
-				do {
-					paymentsPeriod.put(
-							sdfPeriodCod.format(startDate.getTime()),
-							StringUtils.capitalize(sdfPeriodLabel
-									.format(startDate.getTime())));
-					startDate.add(Calendar.MONTH, 1);
-				} while (startDate.before(now));
-			}
+			paymentsPeriod = Util.getPeriodToFilterList(now, subscriptionBusiness.getFirstSubscription(0, 1));
 
 		} catch (Exception e) {
 			logger.error("Errore", e);

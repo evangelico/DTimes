@@ -57,6 +57,7 @@
 
     create table deadline (
         id bigint not null auto_increment,
+        active char(1) NOT NULL DEFAULT 'T' not null,
         deadlineDate datetime,
         packageCoursesId bigint,
         paymentId bigint,
@@ -78,6 +79,7 @@
         description varchar(500),
         expirationType varchar(50) not null,
         name varchar(255) not null,
+        singleLesson char(1) NOT NULL DEFAULT 'F' not null,
         subscriptionPlain char(1) NOT NULL DEFAULT 'F' not null,
         teacherPercentage double precision not null,
         primary key (id),
@@ -107,10 +109,11 @@
         birthdayDate datetime not null,
         cellNumber varchar(255),
         email varchar(255),
-        fiscalCode varchar(255) not null,
+        fiscalCode varchar(255),
         medicalCertificateDate datetime,
         name varchar(255) not null,
         phoneNumber varchar(255),
+        placeOfBirth varchar(255),
         registrationDate datetime not null,
         surname varchar(255) not null,
         primary key (id),

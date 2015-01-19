@@ -40,4 +40,12 @@ public interface SubscriptionBusiness {
 
 	Page<SubscriptionDTO> findAllCertificatesExpired(int page, int size, Date date) throws Exception;
 
+	long countTotalSubscription() throws Exception;
+
+	long countTotalSubscriptionByPlainAndNominative(String nominative, long plainId) throws Exception;
+
+	long countTotalSubscriptionByNominative(String nominative) throws Exception;
+
+	long countTotalSubscriptionByPlain(long plainId) throws Exception;
+
 }

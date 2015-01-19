@@ -33,7 +33,7 @@
 			<div class="box-bordered box-color">
 				<div class="box-title">
 					<h3>
-						<i class="icon-inbox"></i>Pagamenti effettuati
+						<i class="icon-inbox"></i>Situazione corsi
 					</h3>
 				</div>
 				<div class="box-content nopadding">
@@ -44,32 +44,55 @@
 						<table class="table table-nomargin dataTable dataTable-tools  table-bordered">
 							<thead>
 								<tr>
-									<th class="sorting" rowspan="1" colspan="1" style="width: 50px;">Numero iscritti totali</th>
+									<th class="sorting" rowspan="1" colspan="1" style="width: 50px;">Numero iscritti Generale</th>
 									<th class="sorting" rowspan="1" colspan="1" style="width: 250px;">Nome</th>
-									<th class="sorting" rowspan="1" colspan="1" style="width: 100px;">Percentuale di sconto</th>
 									<th class="sorting" rowspan="1" colspan="1" style="width: 100px;">Totale incassato</th>
+									<th class="sorting" rowspan="1" colspan="1" style="width: 100px;">Percentuale di sconto</th>
 									<th class="sorting" rowspan="1" colspan="1" style="width: 100px;">Corrispettivo</th>
 								</tr>
 							</thead>
 							<tbody>
 								<s:iterator value="plains.content" status="plainStatus" var="payment">
-									<tr class="odd">
-										<td class=" ">
-											<s:property value="getCountSubscriptionByPlain(id)" />
-										</td>
-										<td class=" ">
-											<s:property value="name" />
-										</td>
-										<td class=" ">
-											<s:property value="teacherPercentage" />
-										</td>
-										<td class=" ">
-											<s:property value="getTotalAmountByPlain(id,paymentPeriod)" />
-										</td>
-										<td class=" ">
-											<s:property value="getTotalToTeacherByPlain(id,paymentPeriod)" />
-										</td>
-									</tr>
+									<s:if test="%{paymentPeriod == '' || paymentPeriod == null}">
+										<tr class="odd">
+											<td class=" ">
+												<s:property value="getCountSubscriptionByPlain(id)" />
+											</td>
+											<td class=" ">
+												<s:property value="name" />
+											</td>
+											<td class=" ">
+												<s:property value="getTotalAmountByPlain(id,paymentPeriod)" />
+											</td>
+											<td class=" ">
+												<s:property value="teacherPercentage" />
+											</td>
+											<td class=" ">
+												<s:property value="getTotalToTeacherByPlain(id,paymentPeriod)" />
+											</td>
+										</tr>
+									</s:if>
+									<s:else>
+										<s:if test="%{!subscriptionPlain}">
+											<tr class="odd">
+												<td class=" ">
+													<s:property value="getCountSubscriptionByPlain(id)" />
+												</td>
+												<td class=" ">
+													<s:property value="name" />
+												</td>
+												<td class=" ">
+													<s:property value="getTotalAmountByPlain(id,paymentPeriod)" />
+												</td>
+												<td class=" ">
+													<s:property value="teacherPercentage" />
+												</td>
+												<td class=" ">
+													<s:property value="getTotalToTeacherByPlain(id,paymentPeriod)" />
+												</td>
+											</tr>
+										</s:if>
+									</s:else>
 								</s:iterator>
 							</tbody>
 						</table>
@@ -120,7 +143,7 @@
 					<s:property value="totalPaid" />
 				</h3>
 				<h3>
-					Totale corrispettivi :
+					Corrispettivi :
 					<s:property value="teacherToPaid" />
 				</h3>
 			</div>
